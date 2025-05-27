@@ -10,11 +10,38 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        gtag('config', 'G-XXXXXXXXXX', {
+            'page_title': '六字ID生成器',
+            'language': 'zh',
+            'send_page_view': true
+        });
+
+        // 跟踪ID生成事件
+        function trackIdGeneration(count) {
+            gtag('event', 'generate_ids', {
+                'event_category': 'engagement',
+                'event_label': '生成ID',
+                'value': count
+            });
+        }
+
+        // 跟踪ID复制事件
+        function trackIdCopy(id) {
+            gtag('event', 'copy_id', {
+                'event_category': 'engagement',
+                'event_label': '复制ID',
+                'value': id
+            });
+        }
+
+        // 跟踪分享事件
+        function trackShare(platform) {
+            gtag('event', 'share', {
+                'event_category': 'engagement',
+                'event_label': platform
+            });
+        }
     </script>
-    <!-- GoatCounter Analytics -->
-    <script data-goatcounter="https://six-char-id-generator.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
     <style>
         body {
@@ -328,12 +355,18 @@
             
             // 显示结果区域
             resultSection.style.display = 'block';
+            
+            // 跟踪ID生成事件
+            trackIdGeneration(count);
         }
 
         // 复制ID到剪贴板
         function copyId(id) {
             navigator.clipboard.writeText(id).then(() => {
                 showToast('复制成功！');
+                
+                // 跟踪ID复制事件
+                trackIdCopy(id);
             }).catch(err => {
                 console.error('复制失败：', err);
                 showToast('复制失败，请手动复制');
@@ -372,6 +405,9 @@
         // 分享到微信
         function shareToWeChat() {
             showToast('请使用微信扫描二维码分享');
+            
+            // 跟踪分享事件
+            trackShare('wechat');
         }
 
         // 分享到微博
@@ -379,6 +415,9 @@
             const text = '分享一个有趣的六字ID生成器，可以生成富有诗意的ID！';
             const url = `http://service.weibo.com/share/share.php?url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
+            
+            // 跟踪分享事件
+            trackShare('weibo');
         }
 
         // 分享到QQ
@@ -386,6 +425,9 @@
             const text = '分享一个有趣的六字ID生成器，可以生成富有诗意的ID！';
             const url = `http://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
+            
+            // 跟踪分享事件
+            trackShare('qq');
         }
 
         // 确保页面完全加载后再生成二维码
