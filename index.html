@@ -345,6 +345,34 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
+        .donation-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .donation-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .donation-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .donation-qrcode {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -378,21 +406,18 @@
         </div>
 
         <div class="share-section">
-            <div class="share-title">分享给好友</div>
+            <div class="share-title">分享</div>
             <div class="share-buttons">
-                <button class="share-btn wechat" onclick="shareToWeChat()">
-                    <span>微信</span>
-                </button>
-                <button class="share-btn weibo" onclick="shareToWeibo()">
-                    <span>微博</span>
-                </button>
-                <button class="share-btn qq" onclick="shareToQQ()">
-                    <span>QQ</span>
-                </button>
+                <button onclick="share('wechat')">微信</button>
+                <button onclick="share('weibo')">微博</button>
+                <button onclick="share('qq')">QQ</button>
             </div>
-            <div class="qrcode-section">
-                <div class="qrcode-container" id="qrcode"></div>
-                <div class="qrcode-hint">扫描二维码访问</div>
+        </div>
+
+        <div class="donation-section">
+            <div class="donation-title">找到好的名字就请打赏一点吧</div>
+            <div class="donation-content">
+                <img src="https://mmbiz.qpic.cn/mmbiz_jpg/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImzJC4MeRl2Ps7fGfz4oWx2UibfXxiatwUib1K6f2O45ZeuYEUlqic5jYfA/0" alt="微信收款码" class="donation-qrcode">
             </div>
         </div>
     </div>
