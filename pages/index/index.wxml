@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="title">六字ID生成器</view>
+  
+  <view class="input-section">
+    <view class="input-item">
+      <text class="label">生成数量</text>
+      <picker mode="selector" range="{{countArray}}" value="{{countIndex}}" bindchange="onCountChange">
+        <view class="picker">{{countArray[countIndex]}}个</view>
+      </picker>
+    </view>
+  </view>
+
+  <button class="generate-btn" bindtap="generateIds">生成ID</button>
+
+  <view class="result-section" wx:if="{{ids.length > 0}}">
+    <view class="result-title">生成结果</view>
+    <view class="id-list">
+      <view class="id-item" wx:for="{{ids}}" wx:key="index" bindtap="copyId" data-id="{{item}}">
+        <text>{{item}}</text>
+        <text class="copy-hint">点击复制</text>
+      </view>
+    </view>
+  </view>
+</view> 
