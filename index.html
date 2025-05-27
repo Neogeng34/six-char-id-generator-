@@ -10,14 +10,22 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+        
+        // 配置 Google Analytics
         gtag('config', 'G-7Q5PT74NL8', {
             'page_title': '六字ID生成器',
             'language': 'zh',
-            'send_page_view': true
+            'send_page_view': true,
+            'debug_mode': true,
+            'cookie_flags': 'SameSite=None;Secure'
         });
+
+        // 添加调试日志
+        console.log('Google Analytics initialized');
 
         // 跟踪ID生成事件
         function trackIdGeneration(count) {
+            console.log('Tracking ID generation:', count);
             gtag('event', 'generate_ids', {
                 'event_category': 'engagement',
                 'event_label': '生成ID',
@@ -27,6 +35,7 @@
 
         // 跟踪ID复制事件
         function trackIdCopy(id) {
+            console.log('Tracking ID copy:', id);
             gtag('event', 'copy_id', {
                 'event_category': 'engagement',
                 'event_label': '复制ID',
@@ -36,11 +45,22 @@
 
         // 跟踪分享事件
         function trackShare(platform) {
+            console.log('Tracking share:', platform);
             gtag('event', 'share', {
                 'event_category': 'engagement',
                 'event_label': platform
             });
         }
+
+        // 页面加载完成时发送测试事件
+        window.addEventListener('load', function() {
+            console.log('Page loaded, sending test event');
+            gtag('event', 'page_view', {
+                'page_title': '六字ID生成器',
+                'page_location': window.location.href,
+                'page_path': window.location.pathname
+            });
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
     <style>
