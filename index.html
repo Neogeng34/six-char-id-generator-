@@ -1,1 +1,272 @@
- 
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六字ID生成器（苦命版）</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Q5PT74NL8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // 配置 Google Analytics
+        gtag('config', 'G-7Q5PT74NL8', {
+            'page_title': '六字ID生成器（苦命版）',
+            'language': 'zh',
+            'send_page_view': true,
+            'debug_mode': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+
+        // 添加调试日志
+        console.log('Google Analytics initialized');
+
+        // 跟踪ID生成事件
+        function trackIdGeneration(count) {
+            console.log('Tracking ID generation:', count);
+            gtag('event', 'generate_ids', {
+                'event_category': 'engagement',
+                'event_label': '生成ID',
+                'value': count
+            });
+        }
+
+        // 跟踪ID复制事件
+        function trackIdCopy(id) {
+            console.log('Tracking ID copy:', id);
+            gtag('event', 'copy_id', {
+                'event_category': 'engagement',
+                'event_label': '复制ID',
+                'value': id
+            });
+        }
+
+        // 跟踪分享事件
+        function trackShare(platform) {
+            console.log('Tracking share:', platform);
+            gtag('event', 'share', {
+                'event_category': 'engagement',
+                'event_label': platform
+            });
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 100px;
+        }
+        .id-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .id-item:last-child {
+            border-bottom: none;
+        }
+        .copy-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .copy-btn:hover {
+            background-color: #1976D2;
+        }
+        .share-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .share-btn {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #1DA1F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .share-btn:hover {
+            background-color: #0c85d0;
+        }
+        .donation-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        .donation-title {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .donation-qrcode {
+            max-width: 200px;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 打赏区域移到最上端 -->
+        <div class="donation-section">
+            <h2 class="donation-title">找到好的名字就请打赏一点吧</h2>
+            <img src="images/wechat_qrcode.jpg" alt="微信收款码" class="donation-qrcode">
+        </div>
+
+        <h1>六字ID生成器（苦命版）</h1>
+        
+        <div class="input-group">
+            <input type="number" id="count" min="1" max="100" value="10">
+            <button onclick="generateIds()">生成ID</button>
+        </div>
+
+        <div id="result"></div>
+
+        <div class="share-section">
+            <a href="#" class="share-btn" onclick="share('weibo')">分享到微博</a>
+            <a href="#" class="share-btn" onclick="share('twitter')">分享到Twitter</a>
+        </div>
+    </div>
+
+    <script>
+        // 核心情感字库
+        const coreWords = {
+            // 自然意象
+            nature: ['寒', '霜', '风', '雨', '雪', '冰', '露', '雾', '云', '月', '星', '日', '夜', '晨', '暮', '秋', '冬', '春', '夏', '江', '河', '海', '山', '林', '花', '草', '树', '叶'],
+            // 命运感
+            fate: ['劫', '命', '运', '数', '途', '舛', '蹇', '厄', '难', '穷', '困', '累', '疲', '憔', '悴', '孤', '独', '单', '只', '零', '碎', '断', '残', '缺', '凋', '敝', '衰', '败', '枯', '朽', '灭', '烬', '灰', '湮', '没', '沉', '埋', '坠', '落', '崩', '塌', '破', '裂', '毁', '损', '伤', '痕', '疤'],
+            // 情感
+            emotion: ['痛', '苦', '酸', '涩', '咸', '辛', '辣', '寒', '冷', '冰', '霜', '雪', '风', '雨', '雷', '电', '晦', '暗', '阴', '霾', '昏', '浊', '迷', '惘', '惑', '徨', '怅', '惘', '憔', '悴', '辜', '负', '错', '误', '痴', '傻', '癫', '狂', '疯', '魔', '障', '劫', '难', '熬', '煎', '磨', '折', '挫', '抑', '压', '迫', '逼', '困', '囚', '缚', '锁', '禁', '锢', '羁', '绊', '缠', '绕', '纠', '结', '迷', '失', '坠', '落', '沉', '沦', '堕', '入', '渊', '狱', '沼', '泽', '窟', '窿', '阱', '坑', '坎', '坷', '颠', '簸', '波', '折', '曲'],
+            // 动作
+            action: ['泣', '泪', '殇', '殁', '叹', '嗟', '憾', '舛', '蹇', '厄', '难', '劫', '穷', '困', '累', '疲', '憔', '悴', '孤', '独', '单', '只', '零', '碎', '断', '残', '缺', '凋', '敝', '衰', '败', '枯', '朽', '灭', '烬', '灰', '湮', '没', '沉', '埋', '坠', '落', '崩', '塌', '破', '裂', '毁', '损', '伤', '痕', '疤']
+        };
+
+        // 组合模式
+        const patterns = [
+            // 自然意象 + 命运感
+            () => `${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.fate)}${getRandomWord(coreWords.fate)}${getRandomWord(coreWords.emotion)}${getRandomWord(coreWords.emotion)}`,
+            // 动作 + 情绪
+            () => `${getRandomWord(coreWords.action)}${getRandomWord(coreWords.emotion)}${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.fate)}${getRandomWord(coreWords.emotion)}${getRandomWord(coreWords.emotion)}`,
+            // 时间 + 沧桑
+            () => `${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.fate)}${getRandomWord(coreWords.fate)}${getRandomWord(coreWords.emotion)}${getRandomWord(coreWords.emotion)}`,
+            // 抽象情感 + 具象化
+            () => `${getRandomWord(coreWords.emotion)}${getRandomWord(coreWords.emotion)}${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.nature)}${getRandomWord(coreWords.fate)}${getRandomWord(coreWords.fate)}`
+        ];
+
+        function getRandomWord(wordArray) {
+            return wordArray[Math.floor(Math.random() * wordArray.length)];
+        }
+
+        function generateId() {
+            const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+            return pattern();
+        }
+
+        function generateIds() {
+            const count = parseInt(document.getElementById('count').value);
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const id = generateId();
+                const div = document.createElement('div');
+                div.className = 'id-item';
+                div.innerHTML = `
+                    <span>${id}</span>
+                    <button class="copy-btn" onclick="copyId('${id}')">复制</button>
+                `;
+                resultDiv.appendChild(div);
+            }
+            
+            // 跟踪生成事件
+            trackIdGeneration(count);
+        }
+
+        function copyId(id) {
+            navigator.clipboard.writeText(id).then(() => {
+                alert('已复制到剪贴板！');
+                // 跟踪复制事件
+                trackIdCopy(id);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+
+        function share(platform) {
+            const text = '我正在使用六字ID生成器（苦命版）生成ID，快来试试吧！';
+            let url = '';
+            
+            switch(platform) {
+                case 'weibo':
+                    url = `https://service.weibo.com/share/share.php?url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(text)}`;
+                    break;
+                case 'twitter':
+                    url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
+                    break;
+            }
+            
+            if (url) {
+                window.open(url, '_blank');
+                // 跟踪分享事件
+                trackShare(platform);
+            }
+        }
+    </script>
+</body>
+</html> 
